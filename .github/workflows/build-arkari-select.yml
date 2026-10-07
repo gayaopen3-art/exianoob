@@ -86,6 +86,7 @@ jobs:
       - name: Checkout selected Arkari branch (shallow)
         uses: actions/checkout@v4
         with:
+          repository: komimoe/Arkari
           ref: ${{ inputs.obf_branch }}
           submodules: false
           fetch-depth: 1
