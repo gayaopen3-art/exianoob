@@ -111,8 +111,11 @@ jobs:
         if: ${{ inputs.target == 'windows-x86_64' }}
         shell: pwsh
         run: |
-          # windows-latest already ships vcpkg with VCPKG_ROOT set.
-          vcpkg install zlib:x64-windows-static liblzma:x64-windows-static libxml2:x64-windows-static
+          # $env:VCPKG_ROOT points at the vcpkg bundled with Visual Studio
+          # (VC/vcpkg), and the configure step uses ITS toolchain file — so the
+          # packages MUST be installed with that same vcpkg instance, not the
+          # standalone one that happens to be on PATH.
+          & "$env:VCPKG_ROOT\vcpkg.exe" install zlib:x64-windows-static liblzma:x64-windows-static libxml2:x64-windows-static
 
       - name: Configure clang build (windows-x86_64)
         if: ${{ inputs.target == 'windows-x86_64' }}
